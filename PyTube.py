@@ -186,6 +186,7 @@ download_count = video_count = 0
 #ENtra em cada playlist de uma lista, cria uma pasta "Filho" com o nome da playlist, onde vai ser baixado todos os vídeos daquela playlist
 for play in output_playlists:
     son_folder = folder + play[0] + bar
+    resol_video = resol
     
     print(f'\nPlaylist "{play[0]}":\n')
     
@@ -243,7 +244,7 @@ for play in output_playlists:
 
         #Se não tiver nenhum erro, tenta acessa-lo com a qualidade escolhida:
         else:
-            video_download = YouTube(video).streams.get_by_resolution(resol)
+            video_download = YouTube(video).streams.get_by_resolution(resol_video)
 
             #Repete 6 vezes, que é a quantidade de resoluções disponíveis, se não tiver disponível a resolução escolhida, arredonda dinâmicamente e escreve em logs.txt:
             for i in range(6):
@@ -256,8 +257,8 @@ for play in output_playlists:
                     with open(folder + 'logs.txt', 'a') as logs:
                         logs.write(f'Playlist "{play[0]}": Vídeo número {num + 1}: Resolução atual não disponível: {resol}\n')
                         
-                    resol = resolutions[resolutions.index(resol) + resol_round]
-                    video_download = YouTube(video).streams.get_by_resolution(resol)
+                    resol_video = resolutions[resolutions.index(resol_video) + resol_round]
+                    video_download = YouTube(video).streams.get_by_resolution(resol_video)
                     
                 #Printa, escreve e contabiliza o vídeo baixado:
                 else:
